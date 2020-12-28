@@ -1,0 +1,227 @@
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+class Node
+{
+    public:
+    int data;
+    Node *next;
+};
+
+class CircularLinkedList:public Node
+{
+  Node *head;
+  public:
+  CircularLinkedList()
+  {
+    head = NULL;
+  }
+   void create();
+   void search();
+   void insert();
+   void display();
+   void Delete();
+   void reverse();
+   void sort();
+};
+
+void CircularLinkedList::create()
+{
+  Node *temp = new Node;
+  cout<<"Enter the value:: ";
+  cin>>temp->data;
+  if(head==NULL)
+  {
+    head=temp;
+    temp->next=head;
+  }
+  else 
+  {
+    temp->next=head->next;
+    head->next=temp;
+    head=temp;
+  }
+}
+void CircularLinkedList::insert()
+{
+  int ch,num ,pos;
+  Node *temp = new Node;
+  Node *ptr=head;
+  Node *cur;
+  Node *prev;
+  cout<<"Enter the number:: ";
+  cin>>num;
+  temp->data=num;
+    cout<<"\nINSERT AS\n1:FIRSTNODE\n2:LASTNODE\n3:IN BETWEEN FIRST&LAST NODES";
+    cout<<"\nEnter Your Choice:";
+    cin>>ch;
+    switch(ch)
+    {
+          case 1:
+          if(head==NULL)
+              {
+                head=temp;
+                temp->next=head;
+              }
+              else 
+              {
+                  while(ptr->next!=head)
+                  {
+                    ptr=ptr->next;
+                    ptr->next=head;
+                    temp->next=ptr;
+                    head=ptr;
+
+                  }
+              }
+            cout<<"\ninserted::";
+          break;
+          case 2:
+            temp->next=head;
+            temp->next=head->next;
+            head->next=temp;
+            head=temp;
+          break;
+              case 3:
+              cout<<"\nEnter the Position to Insert:";
+              cin>>pos;
+              if(head==NULL)
+              {
+                 prev=head->next;
+              }
+              do
+                  {
+
+                  }while (prev != head -> next);
+              
+          break;
+    }
+   
+
+}
+
+void CircularLinkedList::Delete()
+{
+    int count=1,pos,ch;
+    Node *temp,*ptr;
+    cout<<"\nDELETE\n1:FIRSTNODE\n2:LASTNODE\n3:IN BETWEEN FIRST&LAST NODES";
+    cout<<"\nEnter Your Choice:";
+    cin>>ch;
+      switch(ch)
+      {
+        case 1:
+
+        break;
+        case 2:
+
+        break;
+      }
+}
+
+  void CircularLinkedList::search()
+  {
+      Node *s;
+    int counter = 0;
+    s = head->next;
+     if (head == NULL)
+            {
+                cout<<"List Empty!! Can't search"<<endl;
+                return;
+            }
+            else 
+            {
+                cout<<"Enter number to be search:: ";
+                int value;
+                cin>>value;
+
+                  while (s != head)
+        {
+            counter++;
+            if (s->data == value)    
+            {
+                cout<<"Element "<<value; 
+                cout<<" found at position "<<counter<<endl;
+                return;
+            }
+            s = s->next;
+        }
+        if (s->data == value)    
+        {
+            counter++;             
+            cout<<"Element "<<value;
+            cout<<" found at position "<<counter<<endl;
+            return;
+        }
+        cout<<"Element "<<value<<" not found in the list"<<endl;
+            }
+ 
+  }
+
+void CircularLinkedList::display()
+{
+   Node *s;
+    if (head == NULL)
+    {
+        cout<<"List is empty, nothing to display"<<endl;
+        return;
+    }
+    s = head->next;
+
+    cout<<"Circular Link List: "<<endl;
+    while (s != head)
+    {
+        cout<<s->data<<"->";
+        s = s->next;
+    }
+    cout<<s->data<<endl;
+}
+
+int main()
+{
+   CircularLinkedList cl;
+    int ch;
+          while(1)
+          {
+            cout<<endl<<"---------------------------"<<endl;     
+              cout<<"\n**** MENU ****";
+             cout<<"\n1:CREATE\n2:search\n3:display\n4:Inset\n5:Delet\n6:Sort\n7:Reverse\n8:Exit";
+              cout<<"\nEnter your choice : ";
+              cin>>ch;
+              switch(ch)
+              {
+                 case 1:
+            cl.create();
+            break;
+
+        case 2:
+            cl.search();
+            break;
+        case 3:
+
+            cl.display();
+            break;
+
+            case 4:
+            cl.insert();
+            break;
+
+            case 5:
+            cl.Delete();
+            break;
+
+        //     case 6:
+        //     cl.sort();
+
+        // case 7:
+        //     cl.reverse();
+        //     break;
+            
+        //      case 8:
+        // exit(0);
+              }
+          }
+
+  return 0;
+} 
