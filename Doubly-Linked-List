@@ -1,0 +1,270 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node* next;
+    Node *prev;
+};
+
+class DoublyLinkedList: public Node
+{
+private:
+    Node* first,*last;
+public:
+    DoublyLinkedList()
+     {
+       first=NULL;last=NULL;
+     }
+    void Create();
+    void Insert();
+    void Delete();
+    void Search();
+    void Reverse();
+    void sort();
+    void count();
+    void Display();
+    
+};
+void DoublyLinkedList::Create()
+{
+    Node *temp = new Node;
+    cout<<"\nEnter the Number:: ";
+    cin>>temp->data;
+    temp->next=temp->prev=NULL;
+    if(first==NULL)
+    {
+        first=temp;
+        
+    }
+    else
+    {
+      Node *s = first;
+      while(s->next!=NULL)
+      {
+          s=s->next;
+      }
+        s->next=temp;
+          temp->prev=s;
+
+    }
+    
+}
+void DoublyLinkedList::Insert()
+{
+     Node *cur;
+    cur=first;
+    int count=1,pos,ch,n;
+    Node *temp=new Node;
+    Node *s = first;
+    cout<<"\nEnter an Element:";
+    cin>>n;
+    temp->data=n;
+    temp->data=n;
+    temp->next=NULL;
+    cout<<"\nINSERT AS\n1:FIRSTNODE\n2:LASTNODE\n3:IN BETWEEN FIRST&LAST NODES";
+    cout<<"\nEnter Your Choice:";
+    cin>>ch;
+    switch(ch)
+    {
+       case 1:
+          temp->next=first;
+          first->prev=temp;
+          first=temp;
+      break;
+
+      case 2:
+      if(first==NULL)
+      {
+        first=temp;
+      }
+      else
+      {
+          while(s->next!=NULL)
+          {
+            s=s->next;
+          }
+          s=temp->next;
+          temp=prev->next;
+      }    
+      break;
+      case 3:
+         cout<<"\nEnter the Position to Insert:";
+        cin>>pos;
+        while(count!=pos)
+        {
+            prev=cur;
+            cur=cur->next;
+            count++;
+        }
+        if(count==pos)
+        {
+            prev->next=temp;
+            temp->next=cur;
+        }
+        else
+            cout<<"\nNot Able to Insert";
+            while(count<pos-1 && cur!=NULL)
+            {
+              cur=cur->next;
+              count++;
+              if(cur!=NULL)
+              {
+              temp->data=data;
+              temp->next=cur->next;
+              temp->prev=cur;
+              if(cur->next!=NULL)
+              {
+                 cur->next->prev=temp;
+              }
+              cur->next=temp;
+              }
+              else
+              {
+                cout<<"Invalid:: ";
+              }
+            }
+      break;
+    }
+ 
+
+}
+
+void DoublyLinkedList::Delete()
+{
+  int ch,pos;
+  Node *temp =first, *ptr=last;
+   cout<<"\nDELETE\n1:FIRSTNODE\n2:LASTNODE\n3:IN BETWEEN FIRST&LAST NODES";
+    cout<<"\nEnter Your Choice:";
+    cin>>ch;
+    switch(ch)
+    {
+    case 1:
+      first=first->next;
+      first->prev=NULL;
+      free(temp);
+
+        break;
+    case 2:
+       if(temp->next!=NULL)
+       {
+         temp=temp->next;
+       }
+       temp->prev->next=NULL;
+       free(temp);
+    case 3:
+        cout<<"\nEnter the Position of Deletion:";
+        cin>>pos;
+       
+        break;
+    }
+
+            
+}
+
+void DoublyLinkedList::Search()
+{
+  if(first == NULL)
+  {
+    cout<<"\nList is Empty: ";
+    return;
+  }
+        cout<<"Enter number to be search:: ";
+        int value;
+        cin>>value;
+        int flag;
+        Node *temp = first;
+        flag = 0;
+        while(temp != NULL)
+        {
+            if(temp->data == value)
+            {
+              flag = 1;
+              break;
+            }
+              temp = temp ->next;
+        }
+        if(flag == 1)
+        {
+          cout<<"value found: "<<temp<<" : "<<temp->data;
+        }
+        else
+        {
+          cout<<"value not found:";
+        }
+}  
+
+void DoublyLinkedList::count()
+{
+  Node * temp = first;
+  int count =0;
+  while(temp!=NULL)
+  {
+    temp=temp->next;
+    count++;
+  } 
+  cout<<"Number of element are:: "<<count;
+}
+
+  
+ void DoublyLinkedList::Display()
+ {
+     Node *temp = first;
+   if(first == NULL)
+   {
+     cout<<"\nList is Empty:";
+     return;
+   }
+   else 
+   {
+       while(temp != NULL)
+       {
+         cout<<temp->data<<" -- ";
+          temp = temp->next; 
+       }
+   }
+
+ }
+
+int main()
+{
+    DoublyLinkedList d;
+    int ch;
+     while(1)
+    {
+        cout<<"\n**** MENU ****";
+        cout<<"\n1:CREATE\n2:Delete\n3:Insert\n4:search\n5:Count\n6:Display\n Exit";
+        cout<<"\nEnter Your Choice:";
+        cin>>ch;
+                switch (ch)
+                {
+                case 1:
+                d.Create();
+                  break;
+
+                case 2:
+                d.Delete();
+                 break;
+
+                 case 3:
+                 d.Insert();
+                 break;
+
+                 case 4:
+                 d.Search(); 
+                 break;
+
+                 case 5:
+                  d.count();
+                break;
+                
+                case 6:
+                d.Display();
+                }
+                
+    }
+            return 0;
+}
