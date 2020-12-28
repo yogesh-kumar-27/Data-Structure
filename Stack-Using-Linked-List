@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+class node
+{
+  public:
+   int data;
+   node *next;
+};
+ 
+class stack:public node
+{
+   struct node *top;
+   public:
+      stack() 
+      {
+	 top=NULL;
+      }
+      void push(); 
+      void pop();  
+      void show(); 
+};
+// PUSH Operation
+void stack::push()
+{
+   int value;
+    node *ptr;
+   cout<<"\nPUSH Operation\n";
+   cout<<"Enter a number to insert: ";
+   cin>>value;
+   ptr=new node;
+   ptr->data=value;
+   ptr->next=NULL;
+   if(top!=NULL)
+      ptr->next=top;
+   top=ptr;
+   cout<<"\nNew item is inserted to the stack!!!";
+  
+}
+ 
+// POP Operation
+void stack::pop()
+{
+    node *temp = top;
+   if(top==NULL)
+   {
+      cout<<"\nThe stack is empty!!!";
+      return;
+   }
+   top=top->next;
+   cout<<"\nPOP Operation........\nPoped value is "<<data;
+   delete temp;
+   free(temp);
+  
+}
+ 
+// Show stack
+void stack::show()
+{
+    node *ptr1=top;
+   cout<<"\nThe stack is\n";
+   while(ptr1!=NULL)
+   {
+      cout<<ptr1->data<<" ->";
+      ptr1=ptr1->next;
+   }
+   cout<<"NULL\n";
+   
+}
+ 
+// Main function
+int main()
+{
+   stack s;
+   int choice;
+   while(1)
+   {
+      
+      cout<<"\n1:PUSH\n2:POP\n3:DISPLAY STACK\n4:EXIT";
+      cout<<"\nEnter your choice(1-4): ";
+      cin>>choice;
+      switch(choice)
+      {
+       case 1:
+	  s.push();
+	  break;
+       case 2:
+	  s.pop();
+	  break;
+       case 3:
+	  s.show();
+	  break;
+       case 4:
+	  exit(0);
+	  break;
+       default:
+	  cout<<"Please enter correct choice(1-4)!!";
+	  break;
+       }
+   }
+   return 0;
+}
