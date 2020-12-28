@@ -1,0 +1,287 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct tree {
+    int info;
+    tree *Left, *Right;
+};
+tree* root;
+class Binary_tree {
+public:
+    Binary_tree();
+    void insert1();
+    tree* insert2(tree*, tree*);
+    void Delete(int);
+    tree* FindMin(tree*);
+    tree* Findmax(tree*);
+    tree* Find(tree*, int);
+    void Preorder(tree*);
+    void Inorder(tree*);
+    void Postorder(tree*);
+};
+Binary_tree::Binary_tree()
+{
+    root = NULL;
+}
+tree* Binary_tree::insert2(tree* temp, tree* newnode)
+{
+    if (temp == NULL) {
+        temp = newnode;
+    }
+    else if (temp->info < newnode->info) {
+        insert2(temp->Right, newnode);
+        if (temp->Right == NULL)
+            temp->Right = newnode;
+    }
+    else {
+        insert2(temp->Left, newnode);
+        if (temp->Left == NULL)
+            temp->Left = newnode;
+    }
+    return temp;
+}
+void Binary_tree::insert1()
+{
+    int data;
+    tree *temp = root, *newnode;
+    newnode = new tree;
+    cout << "Enter item: ";
+    cin >>data;
+    newnode->Left = NULL;
+    newnode->Right = NULL;
+    newnode->info = data;
+    root = insert2(temp, newnode);
+}
+
+tree* Binary_tree::Find(tree *node, int data)
+{
+  node = root;
+  //ItrativeFun()
+ while(node!=NULL && data!=node->info)
+ {
+   if(data < node->info)
+   { 
+     return node = node->Left;
+   }
+   else 
+   {
+     return node = node->Right;
+   }
+ }
+      //recursiveFun()
+    // if(node==NULL || data == node->info)
+    // {
+    //   return node;
+    // }
+    // if(data < node->info)
+    // {
+    //   return Find(node->Left,  data);
+    // }
+    // else 
+    // {
+    //   return Find(node->Right,  data);
+    // }
+    // return node;
+}
+  tree* Binary_tree::FindMin(tree* node)
+  {
+    node = root;
+    while(node->Left!=NULL)
+    {
+      node = node->Left;
+    }
+    return node;
+  }
+
+   tree* Binary_tree::Findmax(tree* node)
+  {
+    node = root;
+    while(node->Right!=NULL)
+    {
+      node = node->Right;
+    }
+    return node;
+  }
+
+void Binary_tree::Preorder(tree* t = root)
+{
+    if (root == NULL) {
+        cout << "Nothing to display";
+    }
+    else if (t != NULL) {
+        cout << t->info << " ";
+        Preorder(t->Left);
+        Preorder(t->Right);
+    }
+}
+void Binary_tree::Inorder(tree* t = root)
+{
+    if (root == NULL) {
+        cout << "Nothing to display";
+    }
+    else if (t != NULL) {
+        Inorder(t->Left);
+        cout << t->info << " ";
+        Inorder(t->Right);
+    }
+}
+void Binary_tree::Postorder(tree* t = root)
+{
+    if (root == NULL) {
+        cout << "Nothing to display";
+    }
+    else if (t != NULL) {
+        Postorder(t->Left);
+        Postorder(t->Right);
+        cout << t->info << " ";
+    }
+}
+
+void Binary_tree::Delete(int key)
+{
+    tree *temp = root, *parent = root, *marker;
+    if (temp == NULL)
+        cout << "The tree is empty" << endl;
+    else {
+        while (temp != NULL && temp->info != key) {
+            parent = temp;
+            if (temp->info < key) {
+                temp = temp->Right;
+            }
+            else {
+                temp = temp->Left;
+            }
+        }
+    }
+    marker = temp;
+    if (temp == NULL)
+        cout << "No node present";
+    else if (temp == root) {
+        if (temp->Right == NULL && temp->Left == NULL) {
+            root = NULL;
+        }
+        else if (temp->Left == NULL) {
+            root = temp->Right;
+        }
+        else if (temp->Right == NULL) {
+            root = temp->Left;
+        }
+        else {
+            tree* temp1;
+            temp1 = temp->Right;
+            while (temp1->Left != NULL) {
+                temp = temp1;
+                temp1 = temp1->Left;
+            }
+            if (temp1 != temp->Right) {
+                temp->Left = temp1->Right;
+                temp1->Right = root->Right;
+            }
+            temp1->Left = root->Left;
+            root = temp1;
+        }
+    }
+    else {
+        if (temp->Right == NULL && temp->Left == NULL) {
+            if (parent->Right == temp)
+                parent->Right = NULL;
+            else
+                parent->Left = NULL;
+        }
+        else if (temp->Left == NULL) {
+            if (parent->Right == temp)
+                parent->Right = temp->Right;
+            else
+                parent->Left = temp->Right;
+        }
+        else if (temp->Right == NULL) {
+            if (parent->Right == temp)
+                parent->Right = temp->Left;
+            else
+                parent->Left = temp->Left;
+        }
+        else {
+            tree* temp1;
+            parent = temp;
+            temp1 = temp->Right;
+            while (temp1->Left != NULL) {
+                parent = temp1;
+                temp1 = temp1->Left;
+            }
+            if (temp1 != temp->Right) {
+                temp->Left = temp1->Right;
+                temp1->Right = parent->Right;
+            }
+            temp1->Left = parent->Left;
+            parent = temp1;
+        }
+    }
+    delete marker;
+}
+
+
+int main()
+{
+    Binary_tree bt;
+    int choice, key, ch;
+    tree *root = NULL, *temp;
+    while (1) 
+    {
+        cout << "\n\t1. Insert\n\t2. Delete\n\t3. Preorder Traversal\n\t4. Inorder Treversal\n\t5. Postorder Traversal\n\t6. FindMin\n\t7. FindMax\n\t8. Search\n\t9. EXIT" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            bt.insert1();
+            break;
+        case 2:
+            cout << "Enter element to delete: ";
+            cin >> key;
+            bt.Delete(key);
+            break;
+        case 3:
+            cout << endl;
+            bt.Preorder();
+            break;
+        case 4:
+            cout << endl;
+            bt.Inorder();
+            break;
+        case 5:
+            cout << endl;
+            bt.Postorder();
+            break;
+        case 6:
+            cout << endl;
+            temp=bt.FindMin(root);
+            cout<<"\nMinimum element is :"<<temp->info;
+            break;
+        case 7:
+            cout << endl;
+            temp= bt.Findmax(root);
+            cout<<"\nMaxmum element is :"<<temp->info;
+            break;
+        case 8:
+            cout<< endl;
+            cout<<"\nEnter element to be searched:";
+            cin>>ch;
+            temp=bt.Find(root, ch);
+            if(temp==NULL)
+            {
+                cout<<"Element is not foundn";
+            }
+            else
+            {
+                cout<<"Element "<<temp->info<<" is Found\n";//<<&temp;
+            }
+            break;
+          case 9:
+            exit(0);
+            break;
+        default:
+            cout<<"\nEnter correct choice:";
+            break;    
+          
+        }
+    }
+}   
