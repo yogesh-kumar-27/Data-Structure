@@ -1,0 +1,116 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+#define MAX 100
+
+
+class stack
+{
+int arr[MAX];
+int top;
+public:
+stack()
+{
+  top = -1;
+}
+void push();
+void pop();
+void peep();
+void disp();
+};
+
+// function to insert data into stack
+void stack:: push()
+{
+    int element;
+    if(top == MAX- 1)
+    {
+          cout<<"Stack underflow\n";
+    }
+    else
+    {
+        cout<<"Enter the element to be inserted:";
+        cin>>element;
+        arr[top++]=element;
+    }
+}
+// function to remove data from the top of the stack
+void stack::pop()
+{
+    int element;
+    if(top == -1)
+    {
+         cout<<"Stack underflow\n";
+    }
+    else
+    {
+        element=arr[top];
+        cout<<"The deleted item is "<< arr[top] <<endl;
+        top--; // The element below the topmost element is deleted
+    }
+}
+void stack::peep()
+{
+  if(top == -1)
+  {
+     cout<<"STACK IS EMPTY :( ";
+      return; 
+  }
+  
+    int val = arr[top];
+    cout<<"VALUE PEEPED "<<val;
+  
+}
+
+//Display
+void stack::disp()
+{
+    if(top == -1)
+        {
+           cout<<"Stack underflow\n"; // Stack is empty
+        }
+        else if(top > 0)
+        {
+          cout<<"The elements of the stack are:\n";
+          for(int i = top; i >= 0; i--) // top to bottom traversal
+          {
+              cout<< arr[i] <<endl;
+          }
+    }
+    
+}
+
+
+int main() 
+{
+  stack s;
+  char choice;
+while(1)
+{
+cout<<"1. Insert\n2. Push\n3. Peep\n4. dispt\n5. Exit\n\n";
+cout<<"Enter your choice:";
+cin>>choice;
+ 
+      switch(choice)
+      {
+            case 1:
+            s.push();
+            break;
+            case 2:
+            s.pop();
+            break;
+            case 3:
+            s.peep();
+            break;
+            case 4:
+            s.disp();
+            break;
+            case 5:
+            exit(0);
+            default:
+            printf("Sorry, invalid choice!\n");
+            break;
+      }
+} 
+  return 0;
+}
